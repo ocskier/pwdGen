@@ -11,6 +11,7 @@ const passwordObj = {
 const codeBtn = document.getElementById('generate');
 const copyBtn = document.getElementById('copy');
 const pwdOutput = document.getElementById('password');
+const modal = document.querySelector('.modal-body');
 
 function generateCode () {
     let code = '';
@@ -22,30 +23,52 @@ function generateCode () {
     }
     pwdOutput.textContent = code;
 }
-function askQuestions () {
-    const passwordLength = parseInt(prompt('Enter a length of password from 8 to 126:'));
-    if (passwordLength < 8 || passwordLength > 128) {
-        startOver('Password length incorrect! Retry?');
+function startOver(msg) {
+    alert(msg);
+}
+function getAnswers () {
+    const passwordLength = modal.children[0].children[0].value;
+    if (passwordLength < 8 || passwordLength > 128 | !passwordLength) {
+        startOver('Password Length Invalid!')
     } else {
         passwordObj.length = passwordLength;
         let oneCharTypeSelected = false;
         passwordObj['answers']=[];
-        for (let i = 0; i < passwordObj.questions.length; i++) {
-            const charTypeAns = confirm(passwordObj.questions[i]);
+        for (let i = 1; i <= passwordObj.questions.length; i++) {
+            const charTypeAns = modal.children[i].children[0].children[0].children[0].checked;
             if (oneCharTypeSelected === false) {
                 oneCharTypeSelected = charTypeAns;
             }
             passwordObj['answers'].push(charTypeAns);
         }
-        oneCharTypeSelected === true ? generateCode() : startOver('No valid char types entered! Retry?')
+        oneCharTypeSelected === true ? generateCode() : startOver('No valid char types entered!')
     }
 }
-function startOver(msg) {
-    const again = confirm(msg);
-    again && askQuestions();
-}
-codeBtn.addEventListener('click', askQuestions);
+codeBtn.addEventListener('click', getAnswers);
 copyBtn.addEventListener('click', function(){
     pwdOutput.select();
     document.execCommand("copy",false,pwdOutput.textContent)
 })
+
+// Previous development with window alerts, prompts, and confirms 
+// Current implementation with bootstrap Modal
+
+// function askQuestions () {
+//     const passwordLength = parseInt(prompt('Enter a length of password from 8 to 126:', 8));
+//     if (passwordLength < 8 || passwordLength > 128 | !passwordLength) {
+//         startOver('Password length incorrect! Retry?');
+//     } else {
+//         passwordObj.length = passwordLength;
+//         let oneCharTypeSelected = false;
+//         passwordObj['answers']=[];
+//         for (let i = 0; i < passwordObj.questions.length; i++) {
+//             const charTypeAns = confirm(passwordObj.questions[i]);
+//             if (oneCharTypeSelected === false) {
+//                 oneCharTypeSelected = charTypeAns;
+//             }
+//             passwordObj['answers'].push(charTypeAns);
+//         }
+//         oneCharTypeSelected === true ? generateCode() : startOver('No valid char types entered! Retry?')
+//     }
+// }
+

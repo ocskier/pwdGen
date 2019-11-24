@@ -40,7 +40,7 @@ h2 {
     justify-content: space-between;
 }
 
-#generate,
+#modal-trigger,
 #copy {
     background: red;
     padding: 8px 20px;
@@ -51,4 +51,8 @@ h2 {
 
 #copy {
     background: grey;
+}
+
+.input-group-text p {
+    margin: 0 0 1px 15px;
 }
