@@ -25,7 +25,7 @@ function generateCode () {
 function askQuestions () {
     const passwordLength = parseInt(prompt('Enter a length of password from 8 to 126:'));
     if (passwordLength < 8 || passwordLength > 128) {
-        askQuestions();
+        startOver('Password length incorrect! Retry?');
     } else {
         passwordObj.length = passwordLength;
         let oneCharTypeSelected = false;
@@ -37,8 +37,12 @@ function askQuestions () {
             }
             passwordObj['answers'].push(charTypeAns);
         }
-        oneCharTypeSelected === true ? generateCode() : askQuestions()
+        oneCharTypeSelected === true ? generateCode() : startOver('No valid char types entered! Retry?')
     }
+}
+function startOver(msg) {
+    const again = confirm(msg);
+    again && askQuestions();
 }
 codeBtn.addEventListener('click', askQuestions);
 copyBtn.addEventListener('click', function(){
