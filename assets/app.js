@@ -17,10 +17,8 @@ function generateCode () {
     const filteredCharTypes = passwordObj.answers.map((answer,i)=>{if(answer){return i}}).filter(index=>typeof(index)==='number');
     for (let i = 0; i < passwordObj.length; i++) {
         const randomCharType = Math.floor(Math.random()*filteredCharTypes.length);
-        console.log(randomCharType);
         const letter = allChars[filteredCharTypes[randomCharType]][Math.floor(Math.random()*allChars[filteredCharTypes[randomCharType]].length)];
         code += letter;
-        console.log(code);
     }
     pwdOutput.textContent = code;
     
@@ -44,4 +42,7 @@ function askQuestions () {
     }
 }
 codeBtn.addEventListener('click', askQuestions);
-copyBtn.addEventListener('click', function(){document.execCommand("copy",false,pwdOutput.textContent)})
+copyBtn.addEventListener('click', function(){
+    pwdOutput.select();
+    document.execCommand("copy",false,pwdOutput.textContent)
+})
