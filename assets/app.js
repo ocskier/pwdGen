@@ -21,7 +21,6 @@ function generateCode () {
         code += letter;
     }
     pwdOutput.textContent = code;
-    
 }
 function askQuestions () {
     const passwordLength = parseInt(prompt('Enter a length of password from 8 to 126:'));
