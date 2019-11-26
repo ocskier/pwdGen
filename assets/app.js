@@ -27,6 +27,7 @@ function startOver(msg) {
     alert(msg);
 }
 function getAnswers () {
+    pwdOutput.textContent = "";
     const passwordLength = modal.children[0].children[0].value;
     if (passwordLength < 8 || passwordLength > 128 | !passwordLength) {
         startOver('Password Length Invalid!')
