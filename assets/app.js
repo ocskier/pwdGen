@@ -11,6 +11,7 @@ const passwordObj = {
 const codeBtn = document.getElementById('generate');
 const copyBtn = document.getElementById('copy');
 const pwdOutput = document.getElementById('password');
+const trigger = document.getElementById('modal-trigger');
 const modal = document.querySelector('.modal-body');
 
 function generateCode () {
@@ -27,7 +28,6 @@ function startOver(msg) {
     alert(msg);
 }
 function getAnswers () {
-    pwdOutput.textContent = "";
     const passwordLength = modal.children[0].children[0].value;
     if (passwordLength < 8 || passwordLength > 128 | !passwordLength) {
         startOver('Password Length Invalid!')
@@ -45,6 +45,7 @@ function getAnswers () {
         oneCharTypeSelected === true ? generateCode() : startOver('No valid char types entered!')
     }
 }
+trigger.addEventListener('click', function(){pwdOutput.textContent = ""});
 codeBtn.addEventListener('click', getAnswers);
 copyBtn.addEventListener('click', function(){
     pwdOutput.select();
