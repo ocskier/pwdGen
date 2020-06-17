@@ -14,15 +14,27 @@ const pwdOutput = document.getElementById('password');
 const trigger = document.getElementById('modal-trigger');
 const modal = document.querySelector('.modal-body');
 
+let filteredCharTypes = [];
+
 function generateCode () {
+    let validCode = false;
+    let possibleCode = generatePossibleCode();
+    while(!validCode){
+        const filteredAllChars = allChars.filter((value,i)=>filteredCharTypes.indexOf(i) !== -1);
+        validCode = filteredAllChars.every(value=>value.find(char=>possibleCode.includes(char)));
+        if (!validCode) 
+          possibleCode=generatePossibleCode();
+    }
+    pwdOutput.textContent = possibleCode;
+}
+function generatePossibleCode () {
     let code = '';
-    const filteredCharTypes = passwordObj.answers.map((answer,i)=>{if(answer){return i}}).filter(index=>typeof(index)==='number');
     for (let i = 0; i < passwordObj.length; i++) {
         const randomCharType = Math.floor(Math.random()*filteredCharTypes.length);
         const letter = allChars[filteredCharTypes[randomCharType]][Math.floor(Math.random()*allChars[filteredCharTypes[randomCharType]].length)];
         code += letter;
     }
-    pwdOutput.textContent = code;
+    return code
 }
 function startOver(msg) {
     alert(msg);
@@ -42,6 +54,7 @@ function getAnswers () {
             }
             passwordObj['answers'].push(charTypeAns);
         }
+        filteredCharTypes = passwordObj.answers.map((answer,i)=>{if(answer){return i}}).filter(index=>typeof(index)==='number');
         oneCharTypeSelected === true ? generateCode() : startOver('No valid char types entered!')
     }
 }
